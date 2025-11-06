@@ -1,0 +1,65 @@
+﻿@model CuaHangSach.Models.GioHang
+@{
+    ViewBag.Title = "Xem giỏ hàng";
+}
+
+<h2>Thông tin giỏ hàng đã chọn</h2>
+
+@if (Model.lst.Count == 0)
+{
+    <div class="alert alert-info">Giỏ hàng của bạn đang trống.</div>
+    @Html.ActionLink("Quay lại trang chủ", "Index", "Home")
+}
+else
+{
+    <table class="table">
+        <tr style="font-weight: bold;">
+            <td>Mã sách</td>
+            <td>Tên sách</td>
+            <td>Ảnh</td>
+            <td>Số lượng</td>
+            <td>Đơn giá</td>
+            <td>Thành tiền</td>
+            <td></td>
+        </tr>
+
+        @foreach (var item in Model.lst)
+        {
+            <tr>
+                <td>@item.iMaSach</td>
+                <td>@item.sTenSach</td>
+                <td><img src="~/Content/Images/@item.sAnhBia" width="50" /></td>
+                <td>
+                    @* Form để cập nhật số lượng *@
+                    @using (Html.BeginForm("CapNhatGioHang", "DatHang"))
+                    {
+                        @Html.Hidden("msp", item.iMaSach)
+                        <input type="number" name="soluong" value="@item.iSoLuong" min="1" style="width: 60px;" />
+                        <input type="submit" value="Cập nhật" class="btn btn-xs btn-info" />
+                    }
+                </td>
+                <td>@String.Format("{0:0,0}", item.dDonGia)</td>
+                <td>@String.Format("{0:0,0}", item.dThanhTien)</td>
+                <td>
+                    @Html.ActionLink("Xóa", "XoaMatHang", new { @msp = item.iMaSach },
+                        new
+                             {
+                                 @class = "btn btn-danger btn-xs",
+                              onclick = "return confirm('Bạn có chắc muốn xóa?');"
+                             })
+                </td>
+            </tr>
+        }
+
+        <tr style="font-weight: bold; color: red; font-size: 18px;">
+            <td colspan="4">Tổng số mặt hàng: @Model.SoMatHang()</td>
+            <td colspan="3">Tổng tiền: @String.Format("{0:0,0}", Model.TongThanhTien()) VNĐ</td>
+        </tr>
+
+    </table>
+
+    <div style="text-align: right; margin-top: 20px;">
+        @Html.ActionLink("Tiếp tục mua hàng", "Index", "Home", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Tiến hành Đặt hàng", "DatHang", "DatHang", null, new { @class = "btn btn-success" })
+    </div>
+}

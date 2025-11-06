@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "DangNhap";
+}
+
+<h2>Đăng nhập</h2>
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <td>Tên đăng nhập:</td>
+            <td><input type="text" name="txtTenName" /></td>
+        </tr>
+        <tr>
+            <td>Mật khẩu:</td>
+            <td><input type="password" name="txtPass" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Đăng nhập" /></td>
+        </tr>
+    </table>
+}
+
+@if (ViewBag.ThongBao != null)
+{
+    <div class="alert alert-danger">@ViewBag.ThongBao</div>
+}

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<CuaHangSach.Models.tbl_Sach>
+@{
+    ViewBag.Title = "Trang chủ";
+}
+
+<h2>Danh sách Sách</h2>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3" style="border: 1px solid #ccc; padding: 10px; margin: 5px; text-align: center;">
+            <img src="~/Content/Images/@item.AnhBia" alt="@item.TenSach" width="100" />
+            <h4>@item.TenSach</h4>
+            <p style="color: red; font-weight: bold;">Giá: @String.Format("{0:0,0}", item.DonGia) VNĐ</p>
+            @* Đây là link để thêm vào giỏ hàng *@
+            @Html.ActionLink("Thêm vào giỏ", "ThemMatHangMoi", "DatHang",
+                new { msp = item.MaSach },
+                new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>
